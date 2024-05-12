@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen150"
+    android:background="@drawable/bg_rounded_white">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/dimen150"
+        android:layout_height="@dimen/dimen150"
+        android:layout_gravity="center"
+        android:padding="@dimen/dimen10"
+        app:cardCornerRadius="@dimen/large_padding">
+
+        <ImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_add_camera" />
+
+        <ImageView
+            android:id="@+id/ivChoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimen5"
+            android:layout_marginEnd="@dimen/dimen5" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</FrameLayout>
