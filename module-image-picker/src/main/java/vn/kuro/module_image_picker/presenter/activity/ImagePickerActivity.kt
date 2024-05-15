@@ -5,7 +5,6 @@ import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
@@ -24,6 +23,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import vn.kuro.module_image_picker.R
 import vn.kuro.module_image_picker.databinding.ActivityImagePickerBinding
+import vn.kuro.module_image_picker.domain.model.Photo
+import vn.kuro.module_image_picker.presenter.activity.adapter.ImagePickerAdapter
+import vn.kuro.module_image_picker.presenter.activity.adapter.ImagePickerListener
 import vn.kuro.module_image_picker.presenter.fragment.album_bottom_sheet.AlbumBottomSheetFragment
 import vn.kuro.module_image_picker.utils.createImageUri
 import vn.kuro.module_image_picker.utils.saveUriListsToFile
@@ -73,14 +75,17 @@ class ImagePickerActivity : AppCompatActivity() {
     }
 
     private fun setUpAdapters() {
-        val widthItem = Resources.getSystem().displayMetrics.widthPixels / COLUMN
-        adapter = ImagePickerAdapter(widthItem, object : ImagePickerListener {
+        adapter = ImagePickerAdapter(object : ImagePickerListener {
             override fun onTakePhoto() {
                 requestPermission(arrayOf(CAMERA), REQUEST_CODE_TAKE_PICTURE)
             }
 
             override fun onLongClick() {
                 adapter?.toggleMultiSelectMode()
+            }
+
+            override fun onClick(photo: Photo, isMultiSelectMode: Boolean) {
+                adapter?.updatePhotoSelection(photo)
             }
         })
 
@@ -98,7 +103,7 @@ class ImagePickerActivity : AppCompatActivity() {
             ) {
                 val position = parent.getChildAdapterPosition(view)
                 val column = position % COLUMN
-                val spacing = resources.getDimensionPixelSize(R.dimen.dimen5)
+                val spacing = resources.getDimensionPixelSize(R.dimen.dimen10)
                 outRect.left = spacing - column * spacing / COLUMN
                 outRect.right = (column + 1) * spacing / COLUMN
 
